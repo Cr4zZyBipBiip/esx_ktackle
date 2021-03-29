@@ -34,16 +34,18 @@ AddEventHandler('esx_kekke_tackle:tryTackle', function(target)
 			if srcCoords ~= nil and tgtCoords ~= nil then
 				local dist = #(srcCoords - tgtCoords)
 				if xPlayer ~= nil and xTarget ~= nil then
-					if xPlayer.job ~= nil and xPlayer.job.name == 'police' then 
-						if dist <= 7.5 then
-							TriggerClientEvent('esx_kekke_tackle:getTackled', xTarget.source, src)
-							TriggerClientEvent('esx_kekke_tackle:playTackle', src)
+					if xPlayer.job ~= nil then
+						if xPlayer.job.name == 'police' then 
+							if dist <= 7.5 then
+								TriggerClientEvent('esx_kekke_tackle:getTackled', xTarget.source, src)
+								TriggerClientEvent('esx_kekke_tackle:playTackle', src)
+							else
+								log('^4esx_kekke_tackle: ^1'..srcName..'['..tonumber(src)..']^0 is attempting to exploit the event "tryTackle"! Their distance from the target player is ^1'..dist..'^0.')
+							end
 						else
-							log('^4esx_kekke_tackle: ^1'..srcName..'['..tonumber(src)..']^0 is attempting to exploit the event "tryTackle"! Their distance from the target player is ^1'..dist..'^0.')
+							log('^4esx_kekke_tackle: ^1'..srcName..'['..tonumber(src)..']^0 is attempting to exploit the event "tryTackle"! Their job was not police. Kicking player automatically.')
+							DropPlayer(src, 'Kicked for Cheating! Exploit Detected: esx_kekke_tackle:tryTackle\nName: '..srcName..'\nDetails: Job was not police.')
 						end
-					else
-						log('^4esx_kekke_tackle: ^1'..srcName..'['..tonumber(src)..']^0 is attempting to exploit the event "tryTackle"! Their job was not police. Kicking player automatically.')
-						DropPlayer(src, 'Kicked for Cheating! Exploit Detected: esx_kekke_tackle:tryTackle\nName: '..srcName..'\nDetails: Job was not police.')
 					end
 				end
 			end
